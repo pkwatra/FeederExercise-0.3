@@ -1,18 +1,22 @@
 ﻿using System.Windows;
-using Org.Feeder.App.Framework;
-using Org.Feeder.App.Models;
-using Org.Feeder.App.ViewModels;
+using Org.Feeder.App.Framework.Startup;
+using Autofac;
+using Org.Feeder.App.Framework.Navigate;
 
 namespace Org.Feeder.App
 {
     public partial class App
     {
-        private Bootstrapper _bootstrapper;
-
         private void App_OnStartup(object sender, StartupEventArgs e)
         {
-            _bootstrapper = new Bootstrapper(new HostWindowFactory());
-            _bootstrapper.Initialize(new AppShellViewModel());
+            var bootstrapper = new Bootstrapper(new HostWindowFactory());
+
+            var container = AppContainer.BootStrap();
+
+            var appShellVM = container.Resolve<IContentHostViewModel>();
+            var navigation = container.Resolve<INavigator>();
+
+            bootstrapper.Initialize(appShellVM, navigation);
         }
     }
 }

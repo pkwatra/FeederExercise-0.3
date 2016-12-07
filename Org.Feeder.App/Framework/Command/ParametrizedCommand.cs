@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Org.Feeder.App.Framework
+namespace Org.Feeder.App.Framework.Command
 {
     /// <summary>
     /// Implementation of <see cref="System.Windows.Input.ICommand" /> to route executing commands (with an argument) into a ViewModel or a CommandManager.

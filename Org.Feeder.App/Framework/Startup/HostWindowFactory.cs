@@ -1,6 +1,6 @@
 ﻿using Org.Feeder.App.Views;
 
-namespace Org.Feeder.App.Framework
+namespace Org.Feeder.App.Framework.Startup
 {
     public class HostWindowFactory
     {

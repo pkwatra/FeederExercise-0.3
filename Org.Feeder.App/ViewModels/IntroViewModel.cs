@@ -1,5 +1,5 @@
-﻿using Org.Feeder.App.Framework;
-using Org.Feeder.App.Models;
+﻿using Microsoft.Expression.Interactivity.Core;
+using Org.Feeder.App.Framework.Navigate;
 
 namespace Org.Feeder.App.ViewModels
 {
@@ -17,7 +17,7 @@ namespace Org.Feeder.App.ViewModels
 
         private void Start()
         {
-            _navigator.GoToMain();
+           _navigator.GoToMain();
         }
     }
 }

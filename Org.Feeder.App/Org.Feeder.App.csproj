@@ -35,8 +35,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Org.Feeder.FeederDb">
-      <HintPath>..\dependencies\Org.Feeder.FeederDb.dll</HintPath>
+    <Reference Include="Autofac, Version=4.2.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.2.1\lib\net45\Autofac.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -67,20 +67,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Framework\Bootstrapper.cs" />
-    <Compile Include="Framework\HostWindowFactory.cs" />
-    <Compile Include="Framework\ConnectionStrings.cs" />
-    <Compile Include="Framework\INavigator.cs" />
-    <Compile Include="Framework\Navigator.cs" />
-    <Compile Include="Framework\IWindow.cs" />
-    <Compile Include="Models\PostSummary.cs" />
+    <Compile Include="Framework\Startup\AppContainer.cs" />
+    <Compile Include="Framework\Startup\Bootstrapper.cs" />
+    <Compile Include="Framework\Command\ActionCommand.cs" />
+    <Compile Include="Framework\Command\ParametrizedCommand.cs" />
+    <Compile Include="Framework\Startup\HostWindowFactory.cs" />
+    <Compile Include="Framework\Navigate\INavigator.cs" />
+    <Compile Include="Framework\Navigate\Navigator.cs" />
+    <Compile Include="Framework\Startup\IWindow.cs" />
+    <Compile Include="ViewModels\CommentViewModel.cs" />
     <Compile Include="ViewModels\SampleData\ErrorViewModelSampleData.cs" />
     <Compile Include="ViewModels\SampleData\MainViewModelSampleData.cs" />
     <Compile Include="ViewModels\ErrorViewModel.cs" />
     <Compile Include="ViewModels\IntroViewModel.cs" />
-    <Compile Include="Framework\ActionCommand.cs" />
-    <Compile Include="Framework\IContentHostViewModel.cs" />
-    <Compile Include="Framework\ParametrizedCommand.cs" />
+    <Compile Include="Framework\Startup\IContentHostViewModel.cs" />
+    <Compile Include="Views\CommentView.xaml.cs">
+      <DependentUpon>CommentView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ErrorView.xaml.cs">
       <DependentUpon>ErrorView.xaml</DependentUpon>
     </Compile>
@@ -93,6 +96,10 @@
     <Page Include="Resources\AppStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CommentView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ViewMappings.xaml">
       <SubType>Designer</SubType>
@@ -155,7 +162,16 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Org.Feeder.App.Model\Org.Feeder.Model.csproj">
+      <Project>{5166a6e3-b6ed-4a1f-af72-c25b42e1c9de}</Project>
+      <Name>Org.Feeder.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Org.Feeder.Service\Org.Feeder.Service.csproj">
+      <Project>{bd313bf6-e60d-42a0-89ef-2be543b1576e}</Project>
+      <Name>Org.Feeder.Service</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\background.jpeg" />
   </ItemGroup>

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Org.Feeder.App.Models;
+using Org.Feeder.Model;
 
 namespace Org.Feeder.App.ViewModels.SampleData
 {
@@ -8,7 +8,7 @@ namespace Org.Feeder.App.ViewModels.SampleData
     {
         private static readonly IEnumerable<PostSummary> SamplePosts = from id in Enumerable.Range(1, 100)
                                                                   select new PostSummary(id, "What is the answer to the ultimate question?");
-        public MainViewModelSampleData() : base(SamplePosts)
+        public MainViewModelSampleData() : base(null, null)
         { }
     }
 }

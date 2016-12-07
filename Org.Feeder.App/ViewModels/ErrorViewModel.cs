@@ -1,5 +1,6 @@
 ﻿using System;
 using Org.Feeder.App.Framework;
+using Microsoft.Expression.Interactivity.Core;
 
 namespace Org.Feeder.App.ViewModels
 {

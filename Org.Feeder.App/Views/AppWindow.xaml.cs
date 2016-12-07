@@ -1,5 +1,4 @@
-﻿using Org.Feeder.App.Framework;
-using Org.Feeder.App.Models;
+﻿using Org.Feeder.App.Framework.Startup;
 
 namespace Org.Feeder.App.Views
 {

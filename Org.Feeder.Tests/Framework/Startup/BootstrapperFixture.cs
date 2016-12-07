@@ -1,9 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
-using Org.Feeder.App.Framework;
+using Org.Feeder.App.Framework.Navigate;
+using Org.Feeder.App.Framework.Startup;
 using Org.Feeder.App.ViewModels;
+using Org.Feeder.Service;
 
-namespace Org.Feeder.Tests.Framework
+namespace Org.Feeder.Tests.Framework.Startup
 {
     [TestClass]
     public class BootstrapperFixture
@@ -12,14 +14,16 @@ namespace Org.Feeder.Tests.Framework
         public void Initializing()
         {
             // Arrange
-            var hostWindow = Substitute.For<IWindow>();
-            var viewModel = new AppShellViewModel();
+            var hostWindow = Substitute.For<IWindow>();         
+            var dataService = Substitute.For<IDataService>();
+            var viewModel = Substitute.For<IContentHostViewModel>();
             var factory = Substitute.For<HostWindowFactory>();
             factory.CreateHostWindow(viewModel).Returns(hostWindow);
             var bootstrapper = new Bootstrapper(factory);
+            var navigator = Substitute.For<Navigator>(viewModel, dataService);
 
             // Act
-            bootstrapper.Initialize(viewModel);
+            bootstrapper.Initialize(viewModel, navigator);
 
             // Assert
             hostWindow.Received().Show();

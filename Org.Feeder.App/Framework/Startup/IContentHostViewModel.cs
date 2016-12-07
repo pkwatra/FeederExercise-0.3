@@ -1,6 +1,6 @@
 ﻿using Org.Feeder.App.ViewModels;
 
-namespace Org.Feeder.App.Framework
+namespace Org.Feeder.App.Framework.Startup
 {
     public interface IContentHostViewModel : IViewModel
     {

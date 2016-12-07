@@ -1,14 +1,16 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
-using Org.Feeder.App.Framework;
-using Org.Feeder.App.Models;
+using Org.Feeder.App.Framework.Navigate;
+using Org.Feeder.Model;
 using Org.Feeder.App.ViewModels;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Org.Feeder.Tests.ViewModels
 {
     [TestClass]
     public class IntroViewModelFixture
-    {
+    {        
         [TestMethod]
         public void Starting()
         {

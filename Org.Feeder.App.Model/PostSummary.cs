@@ -1,6 +1,6 @@
-﻿namespace Org.Feeder.App.Models
+﻿namespace Org.Feeder.Model
 {
-    public struct PostSummary
+    public class PostSummary
     {
         public PostSummary(int postId, string title)
         {

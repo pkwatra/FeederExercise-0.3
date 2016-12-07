@@ -1,4 +1,5 @@
 ﻿using Org.Feeder.App.Framework;
+using Org.Feeder.App.Framework.Startup;
 
 namespace Org.Feeder.App.ViewModels
 {
