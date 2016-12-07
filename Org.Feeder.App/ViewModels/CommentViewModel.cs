@@ -1,7 +1,9 @@
 ﻿using Microsoft.Expression.Interactivity.Core;
+using Org.Feeder.App.Framework.Event;
 using Org.Feeder.App.Framework.Navigate;
 using Org.Feeder.Model;
 using Org.Feeder.Service;
+using Prism.Events;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -16,13 +18,17 @@ namespace Org.Feeder.App.ViewModels
         private Post _post;
         private List<Comment> _comments;
         private FeederUser _user;
+        private IEventAggregator _eventAggregator;
+
         public CommentViewModel(INavigator navigator,
-                                IDataService dataService,                     
+                                IDataService dataService,
+                                IEventAggregator eventAggregator,       
                                 PostSummary postSummary)
         {
             _navigator = navigator;
             _dataService = dataService;          
             _postSummary = postSummary;
+            _eventAggregator = eventAggregator;
 
             LoadedCommand = new ActionCommand(OnLoaded);
             GoBackCommand = new ActionCommand(OnGoBack);
@@ -75,8 +81,10 @@ namespace Org.Feeder.App.ViewModels
         public ActionCommand GoBackCommand { get; private set; }
 
         public void OnLoaded()
-        {
+        {            
             //Show Loading
+            _eventAggregator.GetEvent<ShowLoadingEvent>().Publish(true);
+
             GetPostComments();
         }
 
@@ -89,7 +97,7 @@ namespace Org.Feeder.App.ViewModels
 
                 if (!string.IsNullOrEmpty(postCommentResult.Error))
                 {
-                    _navigator.ShowError(postCommentResult.ErrorType, postCommentResult.Error, () => { GoToIntroOnError(); });
+                    _navigator.ShowError(postCommentResult.ErrorType, postCommentResult.Error, () => { GoToMain(); });
                 }
                 else
                 {
@@ -100,13 +108,14 @@ namespace Org.Feeder.App.ViewModels
                     Comments = postCommentResult.Comments;
                     User = postCommentResult.User;
                 }
-                
+
+                _eventAggregator.GetEvent<ShowLoadingEvent>().Publish(false);
             });
         }
 
-        private void GoToIntroOnError()
+        private void GoToMain()
         {
-            _navigator.GoToIntro();
+            _navigator.GoToMain();
         }
 
     }

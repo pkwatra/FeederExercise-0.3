@@ -8,6 +8,8 @@ using Org.Feeder.App.Framework.Startup;
 using Org.Feeder.App.Framework.Navigate;
 using Org.Feeder.Service;
 using System.Collections.ObjectModel;
+using Org.Feeder.App.Framework.Event;
+using Prism.Events;
 
 namespace Org.Feeder.Tests.ViewModels
 {
@@ -16,7 +18,8 @@ namespace Org.Feeder.Tests.ViewModels
     {
         private List<PostSummary> _posts;
         private MainViewModel _viewModel;
-        private PostSummaryResult _postSummarySample;       
+        private PostSummaryResult _postSummarySample;
+        private ShowLoadingEvent _ShowLoadingEvent;
         private INavigator _navigator;
 
         [TestInitialize]
@@ -27,14 +30,17 @@ namespace Org.Feeder.Tests.ViewModels
 
             _navigator = Substitute.For<INavigator>();
             var dataService = Substitute.For<IDataService>();
-            _postSummarySample = Substitute.For<PostSummaryResult>();           
-            _postSummarySample.PostSummary = _posts;         
+            _postSummarySample = Substitute.For<PostSummaryResult>();
+            _ShowLoadingEvent = Substitute.For<ShowLoadingEvent>();
+            _postSummarySample.PostSummary = _posts;
+            var eventAggregator = Substitute.For<IEventAggregator>();
+            eventAggregator.GetEvent<ShowLoadingEvent>().Returns(_ShowLoadingEvent);
 
             _postSummarySample.Error = string.Empty;
             _postSummarySample.ErrorType = string.Empty;
 
             dataService.GetPostSummary().Returns(x => _postSummarySample);
-            _viewModel = Substitute.For<MainViewModel>(_navigator, dataService);
+            _viewModel = Substitute.For<MainViewModel>(_navigator, dataService, eventAggregator);
 
         }
 
@@ -42,6 +48,7 @@ namespace Org.Feeder.Tests.ViewModels
         public void LoadPostSummaryTest()
         {
             _viewModel.LoadedCommand.Execute(null);
+
             _viewModel.GetPostRecords().Wait();
 
             Assert.AreEqual(_postSummarySample.PostSummary.Count, _viewModel.InitialPosts.Count);
@@ -76,7 +83,8 @@ namespace Org.Feeder.Tests.ViewModels
             _postSummarySample.ErrorType = "Error Type!";
 
             //Act
-            _viewModel.LoadedCommand.Execute(null); 
+            _viewModel.LoadedCommand.Execute(null);
+            _viewModel.GetPostRecords().Wait();
 
             //Assert
             Assert.AreEqual(_viewModel.Posts.Count, 0);
@@ -106,5 +114,6 @@ namespace Org.Feeder.Tests.ViewModels
 
             Assert.AreEqual(6, selectedPost.PostId);
         }
+
     }
 }

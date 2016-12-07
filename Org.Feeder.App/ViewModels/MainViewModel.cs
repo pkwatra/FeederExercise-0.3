@@ -6,6 +6,8 @@ using Org.Feeder.App.Framework.Command;
 using Org.Feeder.App.Framework.Navigate;
 using Org.Feeder.Service;
 using System.Threading.Tasks;
+using Prism.Events;
+using Org.Feeder.App.Framework.Event;
 
 namespace Org.Feeder.App.ViewModels
 {
@@ -14,11 +16,13 @@ namespace Org.Feeder.App.ViewModels
         private readonly INavigator _navigator;
         private readonly IDataService _dataService;        
         private ObservableCollection<PostSummary> _posts;
+        private IEventAggregator _eventAggregator;
 
-        public MainViewModel(INavigator navigator, IDataService dataService)
+        public MainViewModel(INavigator navigator, IDataService dataService, IEventAggregator eventAggregator)
         {
             _navigator = navigator;
-            _dataService = dataService;         
+            _dataService = dataService;
+            _eventAggregator = eventAggregator;
 
             FilterCommand = new ParametrizedCommand<string>(Filter);
             SelectCommand = new ParametrizedCommand<PostSummary>(PostSelected);
@@ -62,6 +66,8 @@ namespace Org.Feeder.App.ViewModels
         //Data Should be load on page load
         public void OnLoaded()
         {
+            ShowLoader();
+
             GetPostRecords();
         }
 
@@ -87,8 +93,21 @@ namespace Org.Feeder.App.ViewModels
                         }
                     }                    
                 }
+
+                HideLoader();
             });
         }
+
+        public void ShowLoader()
+        {
+            _eventAggregator.GetEvent<ShowLoadingEvent>().Publish(true);
+        }
+
+        public void HideLoader()
+        {
+            _eventAggregator.GetEvent<ShowLoadingEvent>().Publish(false);
+        }
+
 
         //Navigate to comment screen
         public void PostSelected(PostSummary postSummary)

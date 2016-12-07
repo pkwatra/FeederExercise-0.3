@@ -42,22 +42,21 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <TextBlock Text="Comment :" Style="{StaticResource Text.H1}" Margin="10,5,10,5" />
+            <TextBlock Text="Comment :" Style="{StaticResource Text.H1}" Margin="10,5,5,5" />
             <ListView Grid.Row="1" Background="{x:Null}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" MinWidth="400"
-                      ScrollViewer.VerticalScrollBarVisibility="Auto"
-                 ItemsSource="{Binding Comments, Mode=OneWay, IsAsync=True}" BorderThickness="0" Margin="0 16 0 0" HorizontalContentAlignment="Stretch">
+                      ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                 ItemsSource="{Binding Comments, Mode=OneWay, IsAsync=True}" BorderThickness="0" Margin="0 5 0 0" HorizontalContentAlignment="Stretch">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <Border Style="{StaticResource Post.Border}" CornerRadius="6" >
-                            <Grid  Margin="20,5,10,5">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <TextBlock Text="{Binding CommentName, Mode=OneTime}" Style="{StaticResource Text.Post.Header}" />
-                                <TextBlock Grid.Row="1" Text="{Binding Text, Mode=OneTime}" Style="{StaticResource Text.Post.Body}" TextWrapping="Wrap" />
-                            </Grid>
-                        </Border>
+                        <Grid  Margin="0 4">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Border Grid.RowSpan="2" Style="{StaticResource Post.Border}" CornerRadius="6" Opacity="0.3"/>
+                            <TextBlock Grid.Row="0" Text="{Binding CommentName, Mode=OneTime}" Style="{StaticResource Text.Post.Header}" Margin="10 0 0 0"/>
+                            <TextBlock Grid.Row="1" Text="{Binding Text, Mode=OneTime}" Style="{StaticResource Text.Post.Body}" TextWrapping="Wrap" />
+                        </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
                 <ListView.ItemContainerStyle>

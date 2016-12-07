@@ -6,6 +6,7 @@ using Org.Feeder.App.Framework.Startup;
 using Org.Feeder.App.Framework.Navigate;
 using Org.Feeder.Service;
 using Org.Feeder.Model;
+using Prism.Events;
 
 namespace Org.Feeder.Tests.Framework.Navigate
 {
@@ -13,21 +14,24 @@ namespace Org.Feeder.Tests.Framework.Navigate
     public class NavigatorFixture
     {
         private IContentHostViewModel _appShell;
-        private INavigator _navigator;      
+        private INavigator _navigator;
+        private IEventAggregator _eventAggregator;
         private IDataService _dataService;
 
         [TestInitialize]
         public void Initialize()
         {
-            _appShell = Substitute.For<IContentHostViewModel>();          
+            _appShell = Substitute.For<IContentHostViewModel>();
+            _eventAggregator = Substitute.For<IEventAggregator>();
             _dataService = Substitute.For<IDataService>();
-            _navigator = Substitute.For<Navigator>(_appShell, _dataService);
+            _navigator = Substitute.For<Navigator>(_appShell, _dataService, _eventAggregator);
         }
 
         [TestMethod]
         public void GoingToIntroTest()
         {
             _navigator.GoToIntro();
+
             Assert.IsInstanceOfType(_appShell.Content, typeof(IntroViewModel));
         }
 
@@ -49,22 +53,20 @@ namespace Org.Feeder.Tests.Framework.Navigate
 
         [TestMethod]
         public void GoingToMainTest()
-        {         
+        {
 
             _navigator.GoToMain();
 
             Assert.IsInstanceOfType(_appShell.Content, typeof(MainViewModel));
+
         }
 
-
-        //Need to Implement
         [TestMethod]
         public void GoToCommentTest()
         {
             var postSummary = Substitute.For<PostSummary>(1, "Post 1");
 
             _navigator.GoToComment(postSummary);
-
             Assert.IsInstanceOfType(_appShell.Content, typeof(CommentViewModel));
         }
 

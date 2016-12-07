@@ -109,7 +109,7 @@ namespace Org.Feeder.Service
 
         private Task<PostSummaryResult> GetPostSummaryAsync()
         {
-            var postSummaryResult = Task.Factory.StartNew(() =>
+            return Task.Factory.StartNew(() =>
             {
                 PostSummaryResult postSummary = new PostSummaryResult();
                 if (provider != null)
@@ -122,9 +122,7 @@ namespace Org.Feeder.Service
                 }
 
                 return postSummary;
-            });
-
-            return postSummaryResult;
+            });           
 
         }
 

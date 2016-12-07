@@ -2,6 +2,7 @@
 using Org.Feeder.App.Framework.Navigate;
 using Org.Feeder.Service;
 using Org.Feeder.App.ViewModels;
+using Prism.Events;
 
 namespace Org.Feeder.App.Framework.Startup
 {
@@ -16,6 +17,9 @@ namespace Org.Feeder.App.Framework.Startup
 
             builder.RegisterType<AppShellViewModel>()
                 .As<IContentHostViewModel>().SingleInstance();
+
+            builder.RegisterType<EventAggregator>()
+             .As<IEventAggregator>().SingleInstance();
 
             builder.RegisterType<Navigator>()
               .As<INavigator>().SingleInstance();

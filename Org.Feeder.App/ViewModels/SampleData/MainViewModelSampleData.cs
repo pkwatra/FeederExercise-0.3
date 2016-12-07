@@ -8,7 +8,7 @@ namespace Org.Feeder.App.ViewModels.SampleData
     {
         private static readonly IEnumerable<PostSummary> SamplePosts = from id in Enumerable.Range(1, 100)
                                                                   select new PostSummary(id, "What is the answer to the ultimate question?");
-        public MainViewModelSampleData() : base(null, null)
+        public MainViewModelSampleData() : base(null, null, null)
         { }
     }
 }
