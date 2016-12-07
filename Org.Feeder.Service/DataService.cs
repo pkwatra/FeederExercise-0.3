@@ -1,11 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using Org.Feeder.Model;
 using Org.Feeder.Model.DataProvider;
 using System.Linq;
 using Org.Feeder.Model.Service;
 using System.Configuration;
+using Org.Feeder.DataProvider;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using Org.Feeder.Model;
 
 namespace Org.Feeder.Service
 {
@@ -23,7 +24,7 @@ namespace Org.Feeder.Service
                     provider = new SampleDataProvider.SampleDataProvider();
                     break;
                 case DataAccessType.SQL:
-                    provider = null;
+                    provider = new DataProvider.SQLDataProvider(GetConnecctionString());
                     break;
             }
         }
@@ -59,7 +60,7 @@ namespace Org.Feeder.Service
             PostSummaryResult result = new PostSummaryResult();
             try
             {
-                result = GetPostSummaryAsync();
+                result = GetPostSummaryAsync().Result;
 
             }
             catch (ArgumentException ae)
@@ -85,7 +86,7 @@ namespace Org.Feeder.Service
             try
             {
 
-                result = GetPostCommentAsync(postId);
+                result = GetPostCommentAsync(postId).Result;
             }
             catch (AggregateException ae)
             {
@@ -106,40 +107,66 @@ namespace Org.Feeder.Service
             return result;
         }
 
-
-        //Will work as Async
-        private PostSummaryResult GetPostSummaryAsync()
+        private Task<PostSummaryResult> GetPostSummaryAsync()
         {
-
-            PostSummaryResult postSummary = new PostSummaryResult();
-            if (provider != null)
+            var postSummaryResult = Task.Factory.StartNew(() =>
             {
-                var result = provider.GetPostSummary();
-                if (result != null)
+                PostSummaryResult postSummary = new PostSummaryResult();
+                if (provider != null)
                 {
-                    postSummary.PostSummary = result.ToList();
+                    var result = provider.GetPostSummary();
+                    if (result != null)
+                    {
+                        postSummary.PostSummary = result.ToList();
+                    }
                 }
-            }
 
-            return postSummary;
+                return postSummary;
+            });
+
+            return postSummaryResult;
 
         }
 
-        //Will work as Async
-        public PostCommentResult GetPostCommentAsync(int postId)
+        public Task<PostCommentResult> GetPostCommentAsync(int postId)
         {
-            PostCommentResult postCommentResult = new PostCommentResult();
 
-            if (provider != null)
+            return Task.Factory.StartNew(() =>
             {
-                postCommentResult.Post = provider.GetPost(postId);
-                var users = provider.GetUsers();
-                postCommentResult.User = users.SingleOrDefault(x => x.UserId == postCommentResult.Post.UserId);
-                var comments = provider.GetComment(postId);
-                postCommentResult.Comments = comments.ToList();
-            }
+                PostCommentResult postCommentResult = new PostCommentResult();
 
-            return postCommentResult;
+                if (provider != null)
+                {
+                    var post = Task.Factory.StartNew(() =>
+                    {
+                        return provider.GetPost(postId);
+
+                    }, TaskCreationOptions.AttachedToParent);
+
+                    postCommentResult.Post = post.Result;
+
+                    var users = post.ContinueWith((postResult) =>
+                    {
+                        return provider.GetUsers();
+
+                    }, TaskContinuationOptions.AttachedToParent);
+
+                    postCommentResult.User = users.Result.SingleOrDefault(x => x.UserId == postCommentResult.Post.UserId);
+
+                    var comments = Task.Factory.StartNew(() =>
+                    {
+                        return provider.GetComment(postId);
+
+                    }, TaskCreationOptions.AttachedToParent);
+
+
+                    postCommentResult.Comments = comments.Exception == null ? comments.Result.ToList() : new List<Comment>();
+
+                }
+
+                return postCommentResult;
+            });
+
         }
     }
 }

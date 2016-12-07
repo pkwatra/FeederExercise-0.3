@@ -41,7 +41,8 @@ namespace Org.Feeder.Tests.ViewModels
         [TestMethod]
         public void LoadPostSummaryTest()
         {
-            _viewModel.LoadedCommand.Execute(null);           
+            _viewModel.LoadedCommand.Execute(null);
+            _viewModel.GetPostRecords().Wait();
 
             Assert.AreEqual(_postSummarySample.PostSummary.Count, _viewModel.InitialPosts.Count);
 

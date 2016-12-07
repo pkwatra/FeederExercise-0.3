@@ -5,6 +5,7 @@ using Org.Feeder.Model;
 using Org.Feeder.App.Framework.Command;
 using Org.Feeder.App.Framework.Navigate;
 using Org.Feeder.Service;
+using System.Threading.Tasks;
 
 namespace Org.Feeder.App.ViewModels
 {
@@ -64,25 +65,29 @@ namespace Org.Feeder.App.ViewModels
             GetPostRecords();
         }
 
-        public void GetPostRecords()
+        public Task GetPostRecords()
         {
-            var postSummaryResult = _dataService.GetPostSummary();
-
-            if (postSummaryResult != null)
+            return Task.Factory.StartNew(() =>
             {
-                if (!string.IsNullOrEmpty(postSummaryResult.Error))
+                //Show Loading          
+                var postSummaryResult = _dataService.GetPostSummary();
+
+                if (postSummaryResult != null)
                 {
-                    _navigator.ShowError(postSummaryResult.ErrorType, postSummaryResult.Error, () => { _navigator.GoToIntro(); });
-                }
-                else
-                {
-                    InitialPosts = postSummaryResult.PostSummary;
-                    if (InitialPosts != null)
+                    if (!string.IsNullOrEmpty(postSummaryResult.Error))
                     {
-                        Posts = new ObservableCollection<PostSummary>(InitialPosts);
+                        _navigator.ShowError(postSummaryResult.ErrorType, postSummaryResult.Error, () => { _navigator.GoToIntro(); });
                     }
+                    else
+                    {
+                        InitialPosts = postSummaryResult.PostSummary;
+                        if (InitialPosts != null)
+                        {
+                            Posts = new ObservableCollection<PostSummary>(InitialPosts);
+                        }
+                    }                    
                 }
-            }
+            });
         }
 
         //Navigate to comment screen

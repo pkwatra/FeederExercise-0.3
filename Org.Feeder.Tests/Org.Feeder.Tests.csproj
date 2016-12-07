@@ -40,9 +40,6 @@
       <HintPath>..\packages\NSubstitute.2.0.0-rc\lib\net45\NSubstitute.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Org.Feeder.FeederDb">
-      <HintPath>..\dependencies\Org.Feeder.FeederDb.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -64,6 +61,7 @@
     <Compile Include="Framework\Navigate\NavigatorFixture.cs" />
     <Compile Include="Framework\Startup\BootstrapperFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\CommentViewModelFixture.cs" />
     <Compile Include="ViewModels\IntroViewModelFixture.cs" />
     <Compile Include="ViewModels\MainViewModelFixture.cs" />
   </ItemGroup>

@@ -7,7 +7,7 @@ namespace Org.Feeder.App.Framework.Startup
 {
     public static class AppContainer
     {
-        public static IContainer container;
+        public static IContainer Container { get; private set; }
 
         public static IContainer BootStrap()
         {
@@ -23,9 +23,18 @@ namespace Org.Feeder.App.Framework.Startup
             builder.RegisterType<DataService>()
                .As<IDataService>();
 
-            container = builder.Build();
+            builder.RegisterType<IntroViewModel>()
+             .Named<IViewModel>("IntroVM");
 
-            return container;
+            builder.RegisterType<MainViewModel>()
+            .Named<IViewModel>("MainVM");
+
+            builder.RegisterType<CommentViewModel>()
+            .Named<IViewModel>("CommentVM");
+
+            Container = builder.Build();
+
+            return Container;
         }
     }
 }
