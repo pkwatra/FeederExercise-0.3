@@ -48,15 +48,17 @@
                  ItemsSource="{Binding Comments, Mode=OneWay, IsAsync=True}" BorderThickness="0" Margin="0 5 0 0" HorizontalContentAlignment="Stretch">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <Grid  Margin="0 4">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <Border Grid.RowSpan="2" Style="{StaticResource Post.Border}" CornerRadius="6" Opacity="0.3"/>
-                            <TextBlock Grid.Row="0" Text="{Binding CommentName, Mode=OneTime}" Style="{StaticResource Text.Post.Header}" Margin="10 0 0 0"/>
-                            <TextBlock Grid.Row="1" Text="{Binding Text, Mode=OneTime}" Style="{StaticResource Text.Post.Body}" TextWrapping="Wrap" />
-                        </Grid>
+                        <Border CornerRadius="6">
+                            <Grid  Margin="0 4">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0" Text="{Binding CommentName, Mode=OneTime}" Style="{StaticResource Text.Post.Header}" Margin="10 0 0 0"/>
+                                <TextBlock Grid.Row="1" Text="{Binding Text, Mode=OneTime}" Style="{StaticResource Text.Post.Body}" Margin="10 0 0 0" TextWrapping="Wrap" />
+                            </Grid>
+                        </Border>
                     </DataTemplate>
                 </ListView.ItemTemplate>
                 <ListView.ItemContainerStyle>
