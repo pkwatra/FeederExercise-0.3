@@ -3,18 +3,18 @@ using System.Linq;
 using Org.Feeder.App.ViewModels;
 using Org.Feeder.FeederDb;
 using PostSummary = Org.Feeder.App.Models.PostSummary;
-using Autofac.Core;
-using Autofac;
 
 namespace Org.Feeder.App.Framework
 {
     public class Navigator : INavigator
     {
-        private readonly IContentHostViewModel _appShell;       
+        private readonly IContentHostViewModel _appShell;
+        private readonly Database _database;
 
-        public Navigator(IContentHostViewModel appShell)
+        public Navigator(IContentHostViewModel appShell, Database database)
         {
-            _appShell = appShell;           
+            _appShell = appShell;
+            _database = database;
         }
 
         public void GoToIntro()
@@ -24,12 +24,10 @@ namespace Org.Feeder.App.Framework
 
         public void GoToMain()
         {
-            Display(new MainViewModel(this));
-        }
+            var posts = _database.GetPostSummaries()
+                            .Select(p => new PostSummary(p.Id, p.Title));
 
-        public void GoToComment()
-        {
-            Display(new CommentViewModel());
+            Display(new MainViewModel(posts));
         }
 
         public void ShowError(string title, string message, Action recoveryAction)
@@ -39,7 +37,7 @@ namespace Org.Feeder.App.Framework
 
         private void Display<TViewModel>(TViewModel viewModel) where TViewModel : IViewModel
         {
-           _appShell.Content = viewModel;
+            _appShell.Content = viewModel;
         }
     }
 }

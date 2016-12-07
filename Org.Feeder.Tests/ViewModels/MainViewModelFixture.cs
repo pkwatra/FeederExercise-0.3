@@ -3,9 +3,6 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Org.Feeder.App.Models;
 using Org.Feeder.App.ViewModels;
-using NSubstitute;
-using NSubstitute.Core;
-using Org.Feeder.App.Framework;
 
 namespace Org.Feeder.Tests.ViewModels
 {
@@ -18,12 +15,10 @@ namespace Org.Feeder.Tests.ViewModels
         [TestInitialize]
         public void Init()
         {
-            var navigator = Substitute.For<INavigator>();
-
             _posts = (from id in Enumerable.Range(1, 12)
                       select new PostSummary(id, "Post " + id)).ToList();
 
-            _viewModel = new MainViewModel(navigator);
+            _viewModel = new MainViewModel(_posts);
         }
 
         [TestMethod]
@@ -39,11 +34,11 @@ namespace Org.Feeder.Tests.ViewModels
         [TestMethod]
         public void SelectingPost()
         {
-             var selectedPost = _posts.Skip(5).First();
+            var selectedPost = _posts.Skip(5).First();
 
             _viewModel.SelectCommand.Execute(selectedPost);
 
-            Assert.AreEqual(6, selectedPost.PostId);
+            Assert.Inconclusive("BONUS: implement this test assert it navigates to the corresponding details screen.");
         }
     }
 }

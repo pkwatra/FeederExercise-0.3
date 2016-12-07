@@ -6,7 +6,6 @@ namespace Org.Feeder.App.Framework
     {
         void GoToIntro();
         void GoToMain();
-        void GoToComment();
         void ShowError(string title, string message, Action recoveryAction);
     }
 }

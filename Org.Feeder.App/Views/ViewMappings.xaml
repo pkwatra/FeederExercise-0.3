@@ -7,10 +7,6 @@
         <views:IntroView DataContext="{Binding}" />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type viewModels:CommentViewModel}">
-        <views:CommentView DataContext="{Binding}" />
-    </DataTemplate>
-    
     <DataTemplate DataType="{x:Type viewModels:MainViewModel}">
         <views:MainView DataContext="{Binding}" />
     </DataTemplate>
@@ -20,4 +16,3 @@
     </DataTemplate>
 
 </ResourceDictionary>
-   

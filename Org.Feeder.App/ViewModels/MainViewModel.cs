@@ -9,12 +9,10 @@ namespace Org.Feeder.App.ViewModels
     public class MainViewModel : ViewModelBase
     {
         private readonly List<PostSummary> _initialPosts;
-        private readonly INavigator _navigator;
 
-        public MainViewModel(INavigator navigator)
+        public MainViewModel(IEnumerable<PostSummary> posts)
         {
-            _initialPosts = new List<PostSummary>();
-            _navigator = navigator;
+            _initialPosts = posts.ToList();
             Posts = new ObservableCollection<PostSummary>(_initialPosts);
 
             FilterCommand = new ParametrizedCommand<string>(Filter);
@@ -39,7 +37,7 @@ namespace Org.Feeder.App.ViewModels
 
         private void PostSelected(PostSummary postSummary)
         {
-            _navigator.GoToComment();
+            // TODO: navigate to post details screen
         }
     }
 }

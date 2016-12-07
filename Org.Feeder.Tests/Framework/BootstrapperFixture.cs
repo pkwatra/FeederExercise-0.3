@@ -13,18 +13,17 @@ namespace Org.Feeder.Tests.Framework
         {
             // Arrange
             var hostWindow = Substitute.For<IWindow>();
-            var appShell =Substitute.For<IContentHostViewModel>();
+            var viewModel = new AppShellViewModel();
             var factory = Substitute.For<HostWindowFactory>();
-            factory.CreateHostWindow(appShell).Returns(hostWindow);
+            factory.CreateHostWindow(viewModel).Returns(hostWindow);
             var bootstrapper = new Bootstrapper(factory);
-            var navigator = Substitute.For<Navigator>(appShell);
 
             // Act
-            bootstrapper.Initialize(appShell, navigator);
+            bootstrapper.Initialize(viewModel);
 
             // Assert
             hostWindow.Received().Show();
-            Assert.IsInstanceOfType(appShell.Content, typeof(IntroViewModel));
+            Assert.IsInstanceOfType(viewModel.Content, typeof(IntroViewModel));
         }
     }
 }
