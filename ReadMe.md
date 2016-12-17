@@ -9,7 +9,6 @@ See [Provided components](#provided-components) for some information that may as
 ## Submission
 
 Your code should be available on a GIT repository of your choosing ([bitbucket](https://bitbucket.org), [GitHub](https://github.com/), etc). Once you are satisfied with your code, send us an invitation to access the code so we can take a look.
-
 Make sure your final submission includes all the code and libraries required to compile and run the application and tests. Make sure all tests pass.
 
 ## Tasks
@@ -20,8 +19,7 @@ Here are the tasks required to complete the application. It is advisable to comm
 
 The [provided `Database` component](#database) responds slowly and sometimes times-out. This gives a poor experience to users, and also makes the application difficult to test. The source code for this component is not included, so you will need to write your own wrapper around the database calls and adapt the application code to use that wrapper in order to implement the following features:
 
-* the application should show an error message if the database times-out. An `ErrorView.xaml` screen and related navigation code is already provided.
-* the `NavigatorFixture.GoingToMain` test should be implemented and pass.
+* the application should show an error message if the database times-out. An `ErrorView.xaml` screen and related navigation code is already provided.* the `NavigatorFixture.GoingToMain` test should be implemented and pass.
 * the application should show a loading indicator while waiting for the database response. One possible design is shown below, but feel free to use a different design:
 
 ![Proposed loading screen design](./samples/5.LoadingIndicator.png){ width=300px }
@@ -42,10 +40,9 @@ The application should stay responsive when loading (for example: can be resized
 The following components are provided as a starting point for this exercise. It is fine to change any of the included code, although you are stuck having to use the provided `Database` component, and if you invalidate the provided tests you should reimplement them to maintain the same test coverage.
 
 ### Existing screens
-
-![Intro screen](./samples/0.Intro.png){ width=25% }\ 
-![Main screen](./samples/2.FilteredPosts.png){ width=25% }\ 
-![Error screen](./samples/4.ErrorMessage.png){ width=25% }
+![Intro screen](/samples/0.Intro.png){ width=25% }\ 
+![Main screen](/samples/2.FilteredPosts.png){ width=25% }\ 
+![Error screen](/samples/4.ErrorMessage.png){ width=25% }
 
 ### Database
 
